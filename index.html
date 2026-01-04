@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViveQa - AI Agents Support</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #007AFF;
+            --secondary-color: #5856D6;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --bg-light: #f5f5f7;
+            --bg-white: #ffffff;
+            --border-color: #d2d2d7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-light);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 40px;
+        }
+
+        .app-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .app-description {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Card Sections */
+        .card {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Support Section */
+        .support-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .support-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .support-item:hover {
+            background: #e8e8ed;
+            transform: translateX(5px);
+        }
+
+        .support-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .support-link:hover {
+            color: var(--secondary-color);
+        }
+
+        /* About Section */
+        .about-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            padding: 15px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Privacy Section */
+        .privacy-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 24px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .privacy-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-primary);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-name {
+                font-size: 2rem;
+            }
+
+            .app-description {
+                font-size: 1rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <header>
+        <div class="container">
+            <h1 class="app-name">ViveQa</h1>
+            <p class="app-description">AI agents that deliver personalized insights from content you care about</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- About Section -->
+        <section class="card">
+            <h2 class="section-title">
+                <span class="icon">ℹ️</span>
+                About ViveQa
+            </h2>
+            <p class="about-text">
+                ViveQa uses specialized AI agents to analyze content and surface actionable insights in a mobile-friendly feed. Our intelligent agents work tirelessly to understand your preferences and deliver the most relevant information exactly when you need it.
+            </p>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Smart AI Agents</h3>
+                    <p>Intelligent content analysis</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile First</h3>
+                    <p>Optimized for iOS</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-time</h3>
+                    <p>Instant insights delivery</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Section -->
+        <section class="card">
+            <h2 class="section-title">
+                <span class="icon">💬</span>
+                Support & Contact
+            </h2>
+            <p class="about-text">For help, questions, or feedback, we're here to assist you:</p>
+            <div class="support-options">
+                <div class="support-item">
+                    <a href="mailto:v@snivam.com" class="support-link" onclick="showToast('Opening email client...')">
+                        <span>📧</span>
+                        <span>v@snivam.com</span>
+                    </a>
+                </div>
+                <div class="support-item">
+                    <a href="#" class="support-link" onclick="openContactForm(); return false;">
+                        <span>📝</span>
+                        <span>Contact Form</span>
+                    </a>
+                </div>
+                <div class="support-item">
+                    <a href="#" class="support-link" onclick="showFAQ(); return false;">
+                        <span>❓</span>
+                        <span>FAQ & Help Center</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy Section -->
+        <section class="card">
+            <h2 class="section-title">
+                <span class="icon">🔒</span>
+                Privacy & Security
+            </h2>
+            <p class="about-text">
+                Your privacy is our priority. We believe in transparency and giving you control over your data.
+            </p>
+            <a href="privacy-policy.html" class="privacy-link" onclick="showToast('Loading Privacy Policy...')">
+                <span>📄</span>
+                <span>View our Privacy Policy</span>
+                <span>→</span>
+            </a>
+        </section>
+
+        <!-- App Store Section -->
+        <section class="card">
+            <h2 class="section-title">
+                <span class="icon">📲</span>
+                Get the App
+            </h2>
+            <p class="about-text">
+                Available now on the App Store. Download ViveQa and start getting personalized insights today.
+            </p>
+            <div style="margin-top: 20px;">
+                <a href="#" class="privacy-link" style="background: black; color: white;" onclick="showToast('Redirecting to App Store...')">
+                    <span>🍎</span>
+                    <span>Download on App Store</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 ViveQa. All rights reserved.</p>
+        <p style="margin-top: 10px; font-size: 0.85rem;">
+            Made with ❤️ for iOS users
+        </p>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Contact Form Modal (Hidden by default) -->
+    <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;">
+            <h2 style="margin-bottom: 20px;">Contact Us</h2>
+            <form onsubmit="submitContactForm(event)">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Name</label>
+                    <input type="text" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Email</label>
+                    <input type="email" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Message</label>
+                    <textarea required rows="4" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; resize: vertical;"></textarea>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" onclick="closeContactForm()" style="padding: 10px 20px; border: 1px solid var(--border-color); background: white; border-radius: 8px; cursor: pointer;">Cancel</button>
+                    <button type="submit" style="padding: 10px 20px; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer;">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Toast notification function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Contact form functions
+        function openContactForm() {
+            document.getElementById('contactModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeContactForm() {
+            document.getElementById('contactModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function submitContactForm(event) {
+            event.preventDefault();
+            showToast('Thank you! Your message has been sent.');
+            closeContactForm();
+            event.target.reset();
+        }
+
+        // FAQ function
+        function showFAQ() {
+            showToast('FAQ section coming soon!');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('contactModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeContactForm();
+            }
+        });
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add page load animation
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
